@@ -25,21 +25,23 @@ namespace Day1
 
         static int Calculate(IEnumerable<int> input, int length, int target)
         {
-            return Permutations(input, length)
+            return input.Permutations(length)
                 .Where(x => x.Sum() == target)
                 .FirstOrDefault()
                 .Aggregate((x1, x2) => x1 * x2);
-        }
+        }        
+    }
 
-
-        static IEnumerable<IEnumerable<T>> Permutations<T>(IEnumerable<T> list, int length)
+    public static class Extenstions
+    {
+        public static IEnumerable<IEnumerable<T>> Permutations<T>(this IEnumerable<T> list, int length)
         {
             if (length == 1)
             {
                 return list.Select(x => new T[] { x });
             }
 
-            return Permutations(list, length - 1)
+            return list.Permutations(length - 1)
                 .SelectMany(x => list.Where(n => !x.Contains(n)), (x1, x2) => x1.Concat(new T[] { x2 }));
         }
     }
