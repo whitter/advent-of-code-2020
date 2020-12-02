@@ -19,30 +19,28 @@ namespace Day1
             var input = content.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => Convert.ToInt32(x));
 
-            var results = Task1(input);
-            Task2(input, results);
+            Console.WriteLine($"Task 1: {Calculate(input, 2, 2020)}");
+            Console.WriteLine($"Task 2: {Calculate(input, 3, 2020)}");
         }
 
-        static IEnumerable<dynamic> Task1(IEnumerable<int> input)
+        static int Calculate(IEnumerable<int> input, int length, int target)
         {
-            var results = input
-                .SelectMany(a => input.Where(x => x != a), (a, b) => new { a, b });
-
-            var result = results
-                .FirstOrDefault(set => set.a + set.b == 2020);
-
-            Console.WriteLine($"Task 1: {result.a * result.b}");
-
-            return results;
+            return Permutations(input, length)
+                .Where(x => x.Sum() == target)
+                .FirstOrDefault()
+                .Aggregate((x1, x2) => x1 * x2);
         }
 
-        static void Task2(IEnumerable<int> input, IEnumerable<dynamic> results)
-        {
-            var result = results
-                .SelectMany(set => input.Where(c => c != set.a || c != set.b), (set, c) => new { set.a, set.b, c })
-                .FirstOrDefault(set => set.a + set.b + set.c == 2020);
 
-            Console.WriteLine($"Task 2: {result.a * result.b * result.c}");
+        static IEnumerable<IEnumerable<T>> Permutations<T>(IEnumerable<T> list, int length)
+        {
+            if (length == 1)
+            {
+                return list.Select(x => new T[] { x });
+            }
+
+            return Permutations(list, length - 1)
+                .SelectMany(x => list.Where(n => !x.Contains(n)), (x1, x2) => x1.Concat(new T[] { x2 }));
         }
     }
 }
