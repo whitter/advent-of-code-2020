@@ -18,7 +18,12 @@ namespace Day2
 
             var input = content.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => x.Replace(":", "").Split(new string[] { "-", " " }, StringSplitOptions.RemoveEmptyEntries))
-                .Select(x => new PasswordPolicy { Min = Convert.ToInt32(x[0]), Max = Convert.ToInt32(x[1]), Letter = Convert.ToChar(x[2]), Password = x[3] });
+                .Select(x => new PasswordPolicy { 
+                    Min = Convert.ToInt32(x[0]), 
+                    Max = Convert.ToInt32(x[1]), 
+                    Letter = Convert.ToChar(x[2]), 
+                    Password = x[3] 
+                });
 
             Console.WriteLine($"Task 1: {CorrectPasswords1(input)}");
             Console.WriteLine($"Task 2: {CorrectPasswords2(input)}");
@@ -26,7 +31,7 @@ namespace Day2
 
         static int CorrectPasswords1(IEnumerable<PasswordPolicy> input)
         {
-            var result = input.Where(x => x.Password.Count(c => c == x.Letter) >= x.Min && x.Password.Count(c => c == x.Letter) <= x.Max)
+            var result = input.Where(x => x.LetterCount >= x.Min && x.LetterCount <= x.Max)
                 .Count();
 
             return result;
@@ -47,5 +52,11 @@ namespace Day2
         public int Max { get; set; }
         public char Letter { get; set; }
         public string Password { get; set; }
+        public int LetterCount { 
+            get
+            {
+                return Password.Count(c => c == Letter);
+            }
+        }
     }
 }
