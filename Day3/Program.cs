@@ -39,25 +39,16 @@ namespace Day3
         {
             long trees = 0;
 
-            x += right;
-            y += down;
-
-            if(y >= input.Length)
+            while(y < input.Length - down)
             {
-                return trees;
-            }
+                x += right;
+                y += down;
 
-            if(x >= input[y].Length)
-            {
-                x -= input[y].Length;
+                if (input[y][x % input[y].Length] == '#')
+                {
+                    trees++;
+                }
             }
-
-            if(input[y][x] == '#')
-            {
-                trees++;
-            }
-
-            trees += FindPath(input, right, down, x, y);
 
             return trees;
         }
