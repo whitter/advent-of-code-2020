@@ -85,13 +85,6 @@ namespace Day4
                     continue;
                 }
 
-                foreach (KeyValuePair<string, string> kvp in result)
-                {
-                    Console.WriteLine("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
-                }
-
-                Console.WriteLine();
-
                 count++;
             }
 
