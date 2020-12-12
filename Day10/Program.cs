@@ -1,6 +1,7 @@
 ﻿using MoreLinq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -62,7 +63,7 @@ namespace Day10
             return input
                 .Prepend(0)
                 .Append(input[^1] + 3)
-                .Window(3)
+                .Window(2)
                 .Select(x => x[1] - x[0])
                 .ToArray();
         }
